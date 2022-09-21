@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { authentication } from '../firebase/firebase-config'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +12,7 @@ const SignupScreen = () => {
     createUserWithEmailAndPassword(authentication, email, password)
     .then((res) => {
       console.log(res)
+      navigation.navigate('Home')
     })
     .catch((res) => {
       console.log(res)
@@ -32,7 +33,7 @@ const SignupScreen = () => {
         
        <Text style={{marginTop: 50,}}>Phone Number</Text>
         <TextInput 
-          placeholder="Mobile Number"
+          placeholder="Email"
           value={email}
           onChangeText= {text => setEmail(text)}
           style={styles.input}
