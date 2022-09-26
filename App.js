@@ -6,6 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import NewInventory from './screens/NewInventory';
+import InventorySummary from './screens/InventorySummary';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="Signup" component={SignupScreen} />
         <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
         <Stack.Screen options={{headerShown: false}} name="NewInventory" component={NewInventory} />
+        {/*<Stack.Screen options={{headerShown: false}} name="InventorySummary" component={InventorySummary} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

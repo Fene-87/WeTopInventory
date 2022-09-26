@@ -1,5 +1,5 @@
 import { Dimensions, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, } from 'react'
 import { authentication } from '../firebase/firebase-config';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from 'react';

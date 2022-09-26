@@ -3,12 +3,17 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NewInventory from './NewInventory';
 import NewSale from './NewSale';
+import InventorySummary from './InventorySummary';
+import SalesSummary from './SalesSummary';
 
 const HomeScreen = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [salesModal, setSalesModal] = useState(false);
+  const [invSum, setInvSum] = useState(false);
+  const [salesSum, setSalesSum] = useState(false);
+  const [showSignOut, setShowSignOut] = useState(false);
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -31,25 +36,49 @@ const HomeScreen = () => {
 
       </Modal>
 
+      <Modal visible={invSum} animationType='slide'>
+      <View style={{backgroundColor: '#CEF0E1', alignItems: 'center', justifyContent: 'center'}}>
+          <Icon name='remove' size={26} color={'#17716D'} onPress={() => {setInvSum(false), setShowOptions(false)}} />
+        </View>
+
+        <InventorySummary />
+      </Modal>
+
+      <Modal visible={salesSum} animationType='slide'>
+      <View style={{backgroundColor: '#CEF0E1', alignItems: 'center', justifyContent: 'center'}}>
+          <Icon name='remove' size={26} color={'#17716D'} onPress={() => {setSalesSum(false), setShowOptions(false)}} />
+        </View>
+
+        <SalesSummary />
+      </Modal>
+
       <View style={styles.navBar}> 
        <View style={{flex: 1}}>
         <Icon style={styles.icons} name="user-o" size={45} color={"#CEF0E1"}/>
-        <Text style={styles.navbarText}>Musa Moses  <Icon name="angle-down" size={20} color={'#FEDB41'}/></Text>
+        <View>
+          <TouchableOpacity onPress={() => {showSignOut ? setShowSignOut(false) : setShowSignOut(true); setShowOptions(false)}}>
+          <Text style={styles.navbarText}>Musa Moses  <Icon name="angle-down" size={20} color={'#FEDB41'}/></Text>
+          </TouchableOpacity>
+          {showSignOut && (<View>
+             <Text style={{color: '#fff', marginTop: 10}}>Sign Out</Text>
+             <Text style={{color: '#fff', marginTop: 10}}>Cancel</Text>
+            </View>)}
+        </View>  
         </View>
 
         <View style={styles.newItems}>
           <View>
 
-          <TouchableOpacity onPress={() => {setShowOptions(true)}}>
+          <TouchableOpacity onPress={() => {showOptions ? setShowOptions(false) : setShowOptions(true); setShowSignOut(false)}}>
             <Text style={{marginRight: 10, color: '#fff'}}>Create New  <Icon name="angle-down" size={20} color={'#fff'} /></Text>
           </TouchableOpacity>
 
           {showOptions && (<View>
-            <TouchableOpacity onPress={() => {setSalesModal(true)}}>
+            <TouchableOpacity style={{marginTop: 10}} onPress={() => {setSalesModal(true)}}>
               <Text style={{color: '#fff'}}>New Sale</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => {setModalOpen(true)}}>
+            <TouchableOpacity style={{marginTop: 10}} onPress={() => {setModalOpen(true)}}>
               <Text style={{color: '#fff'}}>New Inventory</Text>
             </TouchableOpacity>
           </View>)}
@@ -64,11 +93,11 @@ const HomeScreen = () => {
           <Text>Summary</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.dashboardItems}>
+        <TouchableOpacity style={styles.dashboardItems} onPress={() => {setInvSum(true)}}>
           <Text>Inventory</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.dashboardItems}>
+        <TouchableOpacity style={styles.dashboardItems} onPress={() => {setSalesSum(true)}}>
           <Text>Sales</Text>
         </TouchableOpacity>
       </View>
