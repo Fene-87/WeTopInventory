@@ -12,6 +12,8 @@ const NewSale = () => {
   const [cash, setCash] = useState(0);
   const [mpesaRef, setMpesaRef] = useState('');
 
+  
+
   const salesCollectionRef = collection(db, "Sales")
 
   const addSales = async () => {

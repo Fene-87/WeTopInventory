@@ -1,12 +1,14 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NewInventory from './NewInventory';
 import NewSale from './NewSale';
 import InventorySummary from './InventorySummary';
 import SalesSummary from './SalesSummary';
+import { authentication } from '../firebase/firebase-config';
+import { signOut } from 'firebase/auth';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -14,6 +16,19 @@ const HomeScreen = () => {
   const [invSum, setInvSum] = useState(false);
   const [salesSum, setSalesSum] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    let today = new Date().getDate();
+    let month = new Date().getMonth();
+    let year = new Date().getFullYear();
+    setCurrentDate(today + '-' + month + '-' + year);
+  }, [])
+
+  const userSignOut = async () => {
+    await signOut(authentication);
+    navigation.navigate('Login');
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -60,8 +75,13 @@ const HomeScreen = () => {
           <Text style={styles.navbarText}>Musa Moses  <Icon name="angle-down" size={20} color={'#FEDB41'}/></Text>
           </TouchableOpacity>
           {showSignOut && (<View>
-             <Text style={{color: '#fff', marginTop: 10}}>Sign Out</Text>
+            <TouchableOpacity>
+             <Text style={{color: '#fff', marginTop: 10}} onPress={userSignOut}>Sign Out</Text>
+             </TouchableOpacity>
+
+             <TouchableOpacity>
              <Text style={{color: '#fff', marginTop: 10}}>Cancel</Text>
+             </TouchableOpacity>
             </View>)}
         </View>  
         </View>
@@ -84,7 +104,7 @@ const HomeScreen = () => {
           </View>)}
           </View>
 
-          <Text style={{color: '#fff'}}>Date Today</Text>
+          <Text style={{color: '#fff'}}>{currentDate}</Text>
         </View>
       </View>
 

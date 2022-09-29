@@ -1,31 +1,32 @@
 import { Dimensions, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState, } from 'react'
 import { authentication } from '../firebase/firebase-config';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from 'react';
 
 
 const LoginScreen = ({ navigation }) => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const signIn = () => {
-    signInWithEmailAndPassword(authentication, email, password)
-    .then((userCredential) => {
-      console.log(userCredential)
-      navigation.navigate('Home')
-    })
-    .catch((res) => {
-      console.log(res);
+  const signIn = async () => {
+    try{
+    const userSignIn = await signInWithEmailAndPassword(
+      authentication,
+      loginEmail,
+      loginPassword
+    )
+    console.log(userSignIn);
+    alert('succesfully signed in');
+    navigation.navigate('Home')
+    } catch (error) {
+      console.log(error)
       alert('Invalid username/password')
-    })
-
-  
-
-  } 
+    }
+  }
 
 
   return (
@@ -43,8 +44,8 @@ const LoginScreen = ({ navigation }) => {
        <Text style={{marginTop: 50,}}>Phone Number</Text>
         <TextInput 
           placeholder="Email"
-          value={email}
-          onChangeText= {text => setEmail(text)}
+          value={loginEmail}
+          onChangeText= {text => setLoginEmail(text)}
           style={styles.input}
         />
         
@@ -52,8 +53,8 @@ const LoginScreen = ({ navigation }) => {
         <Text style={{marginTop: 20,}}>Password</Text>
          <TextInput 
           placeholder="Password"
-          value={password}
-          onChangeText= {text => setPassword(text)}
+          value={loginPassword}
+          onChangeText= {text => setLoginPassword(text)}
           style={styles.input}
           secureTextEntry
         />

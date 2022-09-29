@@ -1,22 +1,24 @@
 import { Dimensions, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { authentication } from '../firebase/firebase-config'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignupScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const signUp = () => {
-    createUserWithEmailAndPassword(authentication, email, password)
-    .then((res) => {
-      console.log(res)
-      navigation.navigate('Home')
-    })
-    .catch((res) => {
-      console.log(res)
-    })
+  const signUp = async () => {
+    try{
+    const user = await createUserWithEmailAndPassword(
+      authentication,
+      email,
+      password
+    )
+    console.log(user)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
